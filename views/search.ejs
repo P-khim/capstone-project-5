@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Note</title>
+    <link rel="stylesheet" href="./style/main.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="/"><h1>Peng Lykhim Books Record</h1></a>
+      <form id="searchForm" method="POST" action="/search">
+        <input
+          type="text"
+          name="input"
+          id="input"
+          placeholder="Enter your book name"
+          autocomplete="off"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div id="output">
+      <% if (output.length === 0) { %>
+      <p
+        style="
+          display: flex;
+          justify-content: center;
+          color: red;
+          font-style: italic;
+        "
+      >
+        No results found.
+      </p>
+      <% } else { %>
+      <ul>
+        <% output.forEach((result) => { %>
+        <div class="card-search">
+          <a href="/cover/<%= result.cover_i %>">
+            <% if (result.cover_i) { %>
+            <img
+              src="http://covers.openlibrary.org/b/id/<%= result.cover_i %>-M.jpg"
+              alt="Book Cover"
+            />
+            <% } else { %>
+            <div
+              class="empty-cover"
+              style="font-size: small; font-style: italic; color: red"
+            >
+              No Image found
+            </div>
+            <% } %> <%= result.title %>
+          </a>
+          <button class="add-book">Add Book</button>
+        </div>
+        <% }) %>
+      </ul>
+      <% } %>
+    </div>
+  </body>
+  <script>
+    document.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        if (event.target.textContent === "Add Book") {
+          const coverId = event.target.previousElementSibling
+            .getAttribute("href")
+            .split("/")
+            .pop();
+          window.location.href = `/add/${coverId}`;
+        }
+      });
+    });
+  </script>
+</html>

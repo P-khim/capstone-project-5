@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Note</title>
+    <link rel="stylesheet" href="./style/main.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <a href="/"><h1>Peng Lykhim Books Record</h1></a>
+      <form id="searchForm" method="POST" action="/search">
+        <input
+          type="text"
+          name="input"
+          id="input"
+          placeholder="Enter your book name"
+          autocomplete="off"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div id="output">
+      <% if (output.length === 0) { %>
+      <p
+        style="
+          display: flex;
+          justify-content: center;
+          color: red;
+          font-style: italic;
+        "
+      >
+        No results found.
+      </p>
+      <% } else { %>
+      <div class="card-container">
+        <% output.forEach((result) => { %>
+        <div class="card">
+          <a href="/cover/<%= result.cover_i %>">
+            <img src="<%= result.book_url %>" alt="Book Cover" />
+          </a>
+          <div class="content">
+            <h1><%= result.title %></h1>
+            <p style="text-indent: 20px; margin-top: 10px">
+              <%= result.description %>
+            </p>
+            <div class="bottom-row">
+              <p style="font-size: smaller">
+                Published: <%= result.creation_date %>
+              </p>
+              <div class="actions">
+                <a href="/edit/<%= result.id %>">Edit</a>
+                <button onclick="openModal('<%= result.id %>')">Delete</button>
+              </div>
+            </div>
+            <div id="confirmationModal" class="modal">
+              <div class="modal-content">
+                <h2>Confirmation</h2>
+                <p>Are you sure you want to delete this book?</p>
+                <div class="modal-buttons">
+                  <button onclick="closeModal()">Cancel</button>
+                  <button onclick="deleteBook('<%= result.id %>')">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
+  </body>
+  <script>
+    function openModal(id) {
+      const modal = document.getElementById("confirmationModal");
+      modal.style.display = "block";
+      modal.dataset.bookId = id;
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("confirmationModal");
+      modal.style.display = "none";
+    }
+
+    function deleteBook(id) {
+      closeModal();
+      window.location.href = "/delete/" + id;
+    }
+  </script>
+</html>

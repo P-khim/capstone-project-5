@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Book</title>
+    <style>
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      .card-add {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card-container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: flex;
+        padding: 10px;
+      }
+
+      .cover img {
+        border-radius: 5px;
+      }
+
+      .description {
+        padding-left: 20px;
+      }
+      .des-2 input {
+        width: 409px;
+      }
+      .des-4 textarea {
+        width: 409px;
+        height: 214px;
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/"
+      ><h1 style="display: flex; justify-content: center">Add Book</h1></a
+    >
+    <div class="card-add">
+      <div class="card-container">
+        <div class="cover">
+          <img src="<%= coverUrl %>" alt="Book Cover" />
+        </div>
+        <div class="description">
+          <form method="POST" action="/save">
+            <input type="hidden" name="coverUrl" value="<%= coverUrl %>" />
+            <div class="des-1">
+              <label for="title">Title:</label>
+            </div>
+            <div class="des-2">
+              <input
+                type="text"
+                name="title"
+                id="title"
+                required
+                autocomplete="off"
+              />
+            </div>
+            <div class="des-3">
+              <label for="description">Description:</label>
+            </div>
+            <div class="des-4">
+              <textarea
+                name="description"
+                id="description"
+                required
+                autocomplete="off"
+              ></textarea>
+            </div>
+            <div class="des-5">
+              <input type="submit" value="Save" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
